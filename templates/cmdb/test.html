@@ -1,0 +1,60 @@
+<div class="card"  id="detail">
+  <button @click="window.location.href='http://127.0.0.1:8000/cmdb/assets-list/'">返回</button>
+    {% verbatim %}
+  <div class="card-header" >
+    <h3 class="card-title" >资产信息详情</h3>
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button type="button" class="btn btn-tool" data-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12 p-1"  >
+        <h4>基本信息</h4>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">资产ID：</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.id }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">设备类型：</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.device_type }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">设备状态</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.device_status }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">机柜</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.cabient }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">服务器名称</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.name }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">最新时间</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.latest_date }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">创建时间</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.create_at }}</div>
+      </div>
+      <div class="col-12 p-1 mt-3">
+        <h4>下属服务器信息</h4>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">服务器ID</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.server.id }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">服务器类型</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.server.sub_asset_type }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">添加方式</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.server.created_by }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">服务器型号</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.server.model }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">Raid类型</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.server.raid_type }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">操作系统类型</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.server.os_type }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">发行商</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.server.os_distribution }}</div>
+        <div class="col-3 col-sm-2 col-lg-1 border-bottom p-1">操作系统版本</div>
+        <div class="col-9 col-sm-10 col-lg-11 border-bottom p-1">{{ assets.server.os_release }}</div>
+      </div>
+      <div class="col-12 p-1 mt-3">
+        <h4>配置信息</h4>
+      </div>
+      <div class="col-12 p-1 mt-3">
+        <h4>其他信息</h4>
+      </div>
+      </div>
+  </div>

@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="row" id="detail">
+  <div class="col-md-3">
+   
+    <!-- Profile Image -->
+    <div class="box box-primary">
+      <div class="box-body box-profile">
+        <img class="profile-user-img img-responsive img-circle" src="{% static 'images/1.jpg' %}"  alt="头像">
+
+        <h3 class="profile-username text-center">资产信息</h3>
+
+        <p class="text-muted text-center">Software Engineer</p>
+
+        <ul class="list-group list-group-unbordered">
+            {% verbatim %}
+          <li class="list-group-item">
+            <b>资产ID</b> <a class="pull-right">{{ assets.id }}</a>
+          </li>
+          <li class="list-group-item">
+            <b>设备类型：</b> <a class="pull-right">{{ assets.device_type }}</a>
+          </li>
+          <li class="list-group-item">
+            <b>设备状态</b> <a class="pull-right">{{ assets.device_status }}</a>
+          </li>
+          <li class="list-group-item">
+            <b>机柜</b> <a class="pull-right">{{ assets.cabient }}</a>
+          </li>
+          <li class="list-group-item">
+            <b>服务器名称</b> <a class="pull-right">{{ assets.name }}</a>
+          </li>
+          <li class="list-group-item">
+            <b>最新时间</b> <a class="pull-right">{{ assets.latest_date }}</a>
+          </li>
+          <li class="list-group-item">
+            <b>创建时间</b> <a class="pull-right">{{ assets.create_at }}</a>
+          </li>
+
+          <button class="btn btn-primary btn-block"
+            @click="window.location.href='http://127.0.0.1:8000/cmdb/assets-list/'">返回上一级</button>
+            {% endverbatim %}
+        </ul>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    <!-- About Me Box -->
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">About Me</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+
+        <p class="text-muted">
+          B.S. in Computer Science from the University of Tennessee at Knoxville
+        </p>
+
+        <hr>
+
+        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+
+        <p class="text-muted">Malibu, California</p>
+
+        <hr>
+
+        <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+
+        <p>
+          <span class="label label-danger">UI Design</span>
+          <span class="label label-success">Coding</span>
+          <span class="label label-info">Javascript</span>
+          <span class="label label-warning">PHP</span>
+          <span class="label label-primary">Node.js</span>
+        </p>
+
+        <hr>
+
+        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+      </div>
+      <!-- /.box-body -->
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#server" data-toggle="tab">服务器信息</a></li>
+        <li><a href="#memory" data-toggle="tab">内存信息</a></li>
+        <li><a href="#disk" data-toggle="tab">硬盘信息</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="active tab-pane" id="server">
+          <ul class="list-group list-group-unbordered">
+              {% verbatim %}
+            <li class="list-group-item">
+              <b>服务器ID</b> <a class="pull-right">{{ assets.server.id }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>服务器类型</b> <a class="pull-right">{{ assets.server.sub_asset_type }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>添加方式</b> <a class="pull-right">{{ assets.server.created_by }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>服务器型号</b> <a class="pull-right">{{ assets.server.model }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>Raid类型</b> <a class="pull-right">{{ assets.server.raid_type }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>操作系统类型</b> <a class="pull-right">{{ assets.server.os_type }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>发行商</b> <a class="pull-right">{{ assets.server.os_distribution }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>操作系统版本</b> <a class="pull-right">{{ assets.server.os_release }}</a>
+            </li>
+            {% endverbatim %}
+          </ul>
+        </div>
+
+        <div class="tab-pane" id="memory">
+            <ul class="list-group list-group-unbordered">
+                {% verbatim %}
+                <li class="list-group-item">
+                  <b>服务器ID</b> <a class="pull-right">{{ assets.server.id }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>服务器类型</b> <a class="pull-right">{{ assets.server.sub_asset_type }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>添加方式</b> <a class="pull-right">{{ assets.server.created_by }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>服务器型号</b> <a class="pull-right">{{ assets.server.model }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Raid类型</b> <a class="pull-right">{{ assets.server.raid_type }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>操作系统类型</b> <a class="pull-right">{{ assets.server.os_type }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>发行商</b> <a class="pull-right">{{ assets.server.os_distribution }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>操作系统版本</b> <a class="pull-right">{{ assets.server.os_release }}</a>
+                </li>
+                {% endverbatim %}
+              </ul>
+        </div>
+        <div class="tab-pane" id="disk">
+            <ul class="list-group list-group-unbordered">
+                {% verbatim %}
+                <li class="list-group-item">
+                  <b>服务器ID</b> <a class="pull-right">{{ assets.cabinet.id }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>服务器类型</b> <a class="pull-right">{{ assets.cabinet.name }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>添加方式</b> <a class="pull-right">{{ assets.cabinet.latest_date }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>服务器型号</b> <a class="pull-right">{{ assets.cabinet.create_at }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Raid类型</b> <a class="pull-right">{{ assets.server.raid_type }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>操作系统类型</b> <a class="pull-right">{{ assets.server.os_type }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>发行商</b> <a class="pull-right">{{ assets.server.os_distribution }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>操作系统版本</b> <a class="pull-right">{{ assets.server.os_release }}</a>
+                </li>
+                {% endverbatim %}
+              </ul>
+        </div>
+        <!-- /.tab-pane -->
+      </div>
+      <!-- /.tab-content -->
+    </div>
+    <!-- /.nav-tabs-custom -->
+  </div>
+  <!-- /.col -->
+</div>
+{% endblock %}
+{% block script %}
+<script>
+  var detail = new Vue({
+    el: "#detail",
+    data: {
+      assets: '',
+    },
+    mounted() {
+      let url = window.location.search; //取到路由后面带的参数
+      let data = url.substr(4, url.length) //截取到需要的  这里截取的是id
+      axios.get(
+        "http://127.0.0.1:8000/cmdb/assetsfilter/", {
+          params: { //固定格式 传参
+            'id': data
+          }
+        }
+      ).then(
+        res => {
+          console.log(res.data)
+          this.assets = res.data[0];
+        });
+    }
+  })
+</script>
+{% endblock %}

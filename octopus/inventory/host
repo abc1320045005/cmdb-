@@ -1,0 +1,15 @@
+[webserver]
+10.0.122.47  log_path=/opt/nginx/log
+
+[dbserver]
+10.0.122.39  log_path=/opt/mysql/log 
+
+[webserver:vars]
+port=9999
+
+[dbserver:vars]
+port=8888
+
+[parent:children]
+webserver
+dbserver  

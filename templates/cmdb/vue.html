@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+{% verbatim %}
+  <div id="app">
+    <h1>{{ msg }}</h1>
+    <button v-on:click=handlechage>算一卦</button>
+    <h2 v-bind:title=titleText>悬停此处有惊喜</h2>
+    <div>{{ msg + " 千锋云计算好程序员"}} </div>
+  </div>
+  <div id="demo">
+    <div v-if="seen==='bj'">北京</div>
+    <div v-else>山西</div>
+  </div>
+  <div id="appkey">
+      <div v-if="logType==='username'" key="user">
+          使用用户名登录<input type="text">
+      </div>
+      <div v-else="logType==='email'" key="pwd">
+          使用邮箱登录<input type="email">
+      </div>
+  </div>
+  {% endverbatim %}
+</body>
+{% endblock %}
+{% block script %}
+<script>
+  var appkey = new Vue({
+         el: '#appkey',
+         data: {
+             logType: 'username'
+         },
+  });
+var  app = new Vue({
+      el: '#app',
+      data: {
+        msg: '大帅哥',
+        titleText:'鸿运连连'
+      },
+      methods: {
+        handlechage: function() {
+          this.msg = '大美女'
+        },
+      }
+});
+var demo= new Vue({
+       el:'#demo',
+       data:{
+            seen: 'bj'
+       },
+});
+</script>
+{% endblock %}

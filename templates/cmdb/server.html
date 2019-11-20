@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Hover Data Table</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body" id="app1">
+        {% verbatim %}
+        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+          <div class="row">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                aria-describedby="example2_info">
+                <thead>
+                  <tr role="row">
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-sort="ascending" aria-label="ID: activate to sort column descending">
+                      ID</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="Browser: activate to sort column ascending">服务器类型</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="Platform(s): activate to sort column ascending">添加方式</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="Engine version: activate to sort column ascending">服务器型号</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="CSS grade: activate to sort column ascending">Raid类型</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="CSS grade: activate to sort column ascending">操作系统类型</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="CSS grade: activate to sort column ascending">发行商</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="CSS grade: activate to sort column ascending">操作系统版本</th>
+                  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr role="row" class="odd">
+                  <tr v-for="item in server.results" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.sub_asset_type }}</td>
+                    <td>{{ item.created_by }}</td>
+                    <td>{{ item.model }}</td>
+                    <td>{{ item.raid_type }}</td>
+                    <td>{{ item.os_type }}</td>
+                    <td>{{ item.os_distribution }}</td>
+                    <td>{{ item.os_release }}</td>
+                  </tr>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th rowspan="1" colspan="1">ID</th>
+                    <th rowspan="1" colspan="1">服务器类型</th>
+                    <th rowspan="1" colspan="1">添加方式</th>
+                    <th rowspan="1" colspan="1">服务器型号 </th>
+                    <th rowspan="1" colspan="1">Raid类型</th>
+                    <th rowspan="1" colspan="1">操作系统类型</th>
+                    <th rowspan="1" colspan="1">发行商</th>
+                    <th rowspan="1" colspan="1">操作系统版本</th>                  
+                           
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-5">
+              <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 51 to 57 of 57
+                entries</div>
+            </div>
+            <div class="col-sm-7">
+              <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                <ul class="pagination">
+                  <li class="paginate_button previous" id="example2_previous">
+                    <a href="#" @click="getUrl(server.links.previous_url)">上一页</a>
+                    
+                  </li>
+                  <li class="paginate_button " v-for="item in server.links.page_links">
+                    <a v-if="! item[3]" href="#" @click="getData(item[0])">{{ item[1] }}</a>
+                    <a v-else href="#">...</a>
+                  </li>
+                  <li class="paginate_button next" id="example2_next">
+                    <a href="#" @click="getData(server.links.next_url)">下一页</a></li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /.box-body -->
+    </div>
+      {% endverbatim %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  var app = new Vue({
+    el: "#app1",
+    data: {
+      server: '',
+    },
+    methods: {
+      getUrl(previous_url) {
+        axios.get(
+          previous_url,
+        ).then(
+          res => {
+            this.server = res.data;
+          });
+      },
+      getData(next_url) {
+        axios.get(
+          next_url,
+        ).then(
+          res => {
+            this.server = res.data;
+          });
+      }
+    },
+    mounted() {
+      axios.get(
+        "http://127.0.0.1:8000/cmdb/server/",
+      ).then(
+        res => {
+          this.server = res.data;
+        });
+    },
+  })
+</script>
+{% endblock %}

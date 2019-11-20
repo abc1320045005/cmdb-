@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-xs-12">
+  <div class="box">
+    <div class="box-header">
+      <h3 class="box-title">Responsive Hover Table</h3>
+      <div class="box-tools">
+        <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+          <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+        
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+          <th>服务器ID</th>
+          <th>主机名</th>
+          <th>IP</th>
+          <th>用户</th>
+          <th>端口</th>
+          <th>认证状态</th>
+          <th>点击推送公钥</th>
+        </tr>
+        {% for server in connection %}
+        <tr>
+          <td>{{ server.id }}</td>
+          <td>{{ server.host_name }}</td>
+          <td>{{ server.manage_ip }}</td> 
+          <td>
+            {{ server.connection.user }}
+          </td>
+          <td>{{ server.connection.port }}</td>
+          <td>
+             {% if server.connection.authed %}
+            <span class="label label-success">{{ server.connection.authed }}</span>
+            {% else %}
+            <span class="label label-warning">{{ server.connection.authed }}</span>
+            {% endif %}
+          </td>
+          <td><span class="label label-success pushPubKey">确认推送</span></td>
+        </tr>
+        {% endfor %}
+      </tbody></table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+     $(".pushPubKey").on("click",function(){
+       let tag=$(this).parent().siblings().last().children();
+       
+       let id=$(this).parent().siblings().first().text();
+       
+       $.ajax({
+         url: "{% url 'octopus:connection' %}",
+         type: "POST",
+         data: {"server_id": id,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        //  headers: { // 把认证信息添加到请求的头部，也能实现认证
+        //             "X-CSRFToken": $.cookie('csrftoken') // 从 cookie 中获取到csrf的值
+        //         },
+         success: function(res){
+          if (res.status){
+                   tag.attr("class","label label-success")
+                   tag.text("success")
+                        // alert("操作成功！")
+                    }else{
+                        alert("操作失败！")
+                    }
+         }
+       })
+     })
+</script>
+{% endblock %}

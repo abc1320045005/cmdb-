@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block page-head-commont %}Ansible 执行{% endblock %}
+{% block page-head-cmmont-small %} Version 2.0 {% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-3">
+    <a href="#" class="btn btn-primary btn-block margin-bottom">Compose</a>
+
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h3 class="box-title">Folders</h3>
+
+        <div class="box-tools">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- /.box-body -->
+    </div>
+    <!-- /. box -->
+    {% for Invertory in Invertorys %}
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h3 class="box-title">{{ Invertory.group }}</h3>
+        <div class="box-tools">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="box-body no-padding">
+        <ul class="nav nav-pills nav-stacked">
+          {% for server in Invertory.serevr.all %}
+          <li><a href="#" class="btn btn-large  disabled"><i
+                class="fa fa-circle-o text-red"></i>{{ server.manage_ip }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- /.box-body -->
+    </div>
+    {% endfor %}
+    <!-- /.box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-md-9">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">执行命令</h3>
+
+        <div class="box-tools pull-right">
+
+        </div>
+        <!-- /.box-tools -->
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body no-padding">
+
+        <div class="table-responsive mailbox-messages">
+          <div class="box-footer">
+            <!-- <form action="#" method="post"> -->
+            <!-- {% csrf_token %} -->
+            <div class="input-group">
+              <input type="text" name="command" placeholder="ansible all -m  shell -a  'ls /tmp '" class="form-control">
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-success btn-flat" id="command">执行命令</button>
+              </span>
+            </div>
+            <!-- </form> -->
+          </div>
+        </div>
+        <!-- /.mail-box-messages -->
+      </div>
+      <!-- /.box-body -->
+
+    </div>
+    <!-- /. box -->
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">返回结果</h3>
+
+        <div class="box-tools pull-right">
+          <div class="has-feedback">
+            <input type="text" class="form-control input-sm" placeholder="Search Mail">
+            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+          </div>
+        </div>
+        <!-- /.box-tools -->
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body no-padding">
+
+        <div class="table-responsive mailbox-messages" id="result">
+          
+        </div>
+        <!-- /.mail-box-messages -->
+      </div>
+      <!-- /.box-body -->
+
+    </div>
+  </div>
+  <!-- /.col -->
+</div>
+
+{% endblock %}
+{% block script %}
+<script>
+  $(function () {
+        function handleTask(task_id) {
+          var timer = setTimeout(function f(task_id) {
+            $.getJSON(
+              url = `/octopus/get_task/?task_id=${task_id}`,
+              function (ret) {
+                if (ret.success) {
+                  $("#result").append(`<div><code >${ret.id}</code><div>`)
+                  $("#result").append(`<div><code >${ret.status}</code><div>`)
+                  $("#result").append(`<div><code >任务结果${ret.result.msg}</code><div>`);
+                  clearTimeout(timer);
+                } else {
+                  $("#result").append(`<div><code >${ret.id}</code><div>`);
+                  $("#result").append(`<div><code >${ret.status}</code><div>`);
+                };
+              }
+            )
+            timer = setTimeout(f, 2000, task_id);
+          }, 2000, task_id);
+        }
+      $("#command").on("click", function () {
+        let command = $(this).parent().siblings().first().val()
+        if (!command) {
+          alert("命令为空")
+          return false
+        }
+        // console.log("haoe"),
+        $.ajax({
+          url: "{% url 'octopus:Invertorys' %}",
+          type: "POST",
+          data: {
+            "command": command,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+          },
+          dataType: "json",
+          success: function (res) {
+            // console.log(res.task_id)
+            //  $("#result").text(res.msg).append(res.status)
+            //  $("#result").text(res.task_id)  
+            $("#result").empty();
+            // console.log("chenggong");
+            let task_id = res.task_id;
+            alert(res.task_id);
+            handleTask(task_id);
+          }
+        });
+      });
+    })
+</script>
+{% endblock %}

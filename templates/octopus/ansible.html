@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+内容
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="form-group">
+      <h5>host</h5>
+      <select name="host" id="host">
+        <option value=""></option>
+        <option value="webserver">webserver</option>
+        <option value="dbserver">dbserver</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <h5>module</h5>
+      <select name="host" id="module">
+        <option value=""></option>
+        <option value="shell">shell</option>
+        <option value="yum">ping</option>
+        <option value="yum">yum</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <h5>conn</h5>
+      <select name="host" id="conn">
+        <option value=""></option>
+        <option value="smart">smart</option>
+        <option value="local">local</option>
+      </select>
+    </div>
+    <div class="form-group" id="args">
+      arg: <input type="text" name="args">
+    </div>
+    <button class="btn btn-success" id="btn">send</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <button class="btn btn-danger" id="getTask">结果展示</button>
+    <div id="result"></div>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+  $(function () {
+    function handleTask(task_id) {
+      var timer = setTimeout(function f(task_id) {
+        $.getJSON(
+          url = `/octopus/get_task/?task_id=${task_id}`,
+          function (ret) {
+            if (ret.success) {
+              $("#result").append(`<div><code >${ret.id}</code><div>`)
+              $("#result").append(`<div><code >${ret.status}</code><div>`)
+              $("#result").append(`<div><code >任务结果${ret.result.msg}</code><div>`);
+              clearTimeout(timer);
+            } else {
+              $("#result").append(`<div><code >${ret.id}</code><div>`);
+              $("#result").append(`<div><code >${ret.status}</code><div>`);
+            };
+          }
+        )
+        timer = setTimeout(f, 2000, task_id);
+      }, 2000, task_id);
+    }
+    $("#btn").on("click", function () {
+      let host = $("#host").val()
+      let m = $("#module").val()
+      let conn = $("#conn").val()
+      let arg = $("#args").children().val()
+      console.log('host')
+      // $("#result").empty()
+      $.ajax({
+        url: "/octopus/ansible/",
+        type: "POST",
+        data: {
+          "host": host,
+          "module": m,
+          "conn": conn,
+          "args": arg,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        dataType: "json",
+        success: function (res) {
+          $("#result").empty();
+          let task_id = res.task_id;
+          alert(res.task_id);
+          handleTask(task_id);
+        }
+      });
+    });
+  })
+
+</script>
+{% endblock %}

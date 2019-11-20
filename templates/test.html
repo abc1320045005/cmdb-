@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父子组件间传值</title>
+    <script src="../statics/js/vue.min.js"></script>
+    <script src="../statics/js/axios.min.js"></script>
+</head>
+
+<body>
+
+    <li id="app">
+        <a href="javascript:void(0)">
+            <i class="fa fa-share"></i> <span>服务树</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <server-tree :nodes="serverTree"></server-tree>
+    </li>
+
+</body>
+<script>
+    Vue.component('server-tree', {
+        props: ['nodes'],
+        computed: {
+            // 控制箭头方向
+            handleOpen() {
+                return {
+                    'menu-open': this.seen
+                }
+            },
+        },
+        methods: {
+            handleSecondShow() {
+                this.seen = !this.seen;
+            }
+        },
+        data: function () {
+            return {
+                seen: false,
+                content: "this is content"
+            }
+        },
+        template: `<div>
+                    <ul v-for="(node,index) in nodes" :key="index" >
+                        <li>{{node.node_name}}
+                            <server-tree  :nodes="node.sub_node"></server-tree>
+                        </li>
+                    </ul>
+                </div>
+            `
+    });
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            serverTree: '',
+            node_show:false
+        },
+        computed: {
+            // 控制箭头方向
+            handleOpen() {
+                return {
+                    'menu-open': this.seen
+                }
+            },
+        },
+        mounted() {
+            axios.get('http://127.0.0.1:8001/cmdb/treenode/')
+            .then(res => {
+                this.serverTree = res.data
+            })
+        }
+    })
+</script>
+</html>

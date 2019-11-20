@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<!-- <div id="live2d-widget">
+    <canvas id="live2dcanvas" width="300" height="600"
+      style="position: fixed; opacity: 0.7; left: 0px; bottom: -20px; z-index: 99999; pointer-events: none;"></canvas>
+  </div> -->
+
+  <div class="col-xs-4 ">
+    <div class="box box-success ">
+      <div class="box-header with-border">
+        <h3 class="box-title">CMDB router</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+        <p></p>
+        <div class="tab-pane active" id="timeline">
+
+          <ul class="timeline timeline-inverse">
+            <!-- timeline time label -->
+            <li class="time-label">
+              <span class="bg-red">
+                C M D B
+              </span>
+            </li>
+            <!-- /.timeline-label -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-envelope bg-blue"></i>
+
+              <div class="timeline-item">
+
+
+                <h3 class="timeline-header"><a href="#">IDC</a> <br>Internet Data Center</h3>
+
+
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <li>
+              <i class="fa fa-camera bg-purple"></i>
+
+              <div class="timeline-item">
+                <h3 class="timeline-header"><a href="#">Cabinets</a> <br> Cabinets All Over The
+                  Country
+                </h3>
+              </div>
+            </li>
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-user bg-aqua"></i>
+
+              <div class="timeline-item">
+
+
+                <h3 class="timeline-header no-border"><a href="#">Assets</a> <br> Assets List</h3>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-comments bg-yellow"></i>
+
+              <div class="timeline-item">
+                <h3 class="timeline-header"><a href="#">Servers</a> <br> All Servers</h3>
+              </div>
+            </li>
+
+            <li>
+              <i class="fa fa-camera bg-purple"></i>
+
+              <div class="timeline-item">
+                <h3 class="timeline-header"><a href="#">Memories</a> <br> Memory Chips</h3>
+              </div>
+            </li>
+            <li>
+              <i class="fa fa-user bg-aqua"></i>
+
+              <div class="timeline-item">
+
+
+                <h3 class="timeline-header no-border"><a href="#">Disks</a> <br> Hard Disk Storage Device</h3>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <li>
+              <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xs-6" id="main" style="width: 600px;height:400px;"></div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+  // 基于准备好的dom，初始化echarts实例
+  $(function () {
+    $.getJSON(
+      '/dash/',
+      function (res) {
+        assetPie(res)
+      }
+    )
+  });
+  L2Dwidget.init({
+          "model": {
+            jsonPath: "https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json ",
+            "scale": 1
+          },
+          "display": {
+            "position": "right",
+            "width": 150,
+            "height": 300,
+            "hOffset": 0,
+            "vOffset": -20
+          },
+          "mobile": {
+            "show": false,
+            "scale": 0.5
+          },
+          "react": {
+            "opacityDefault": 0.7,
+            "opacityOnHover": 0.2
+          },
+        });
+</script>
+{% endblock %}

@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <!-- <div  style="width: 100%;height:100%;background-color:rgba(0, 0,0, 0.4);position: absolute;z-index: 5"></div> -->
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Hover Data Table</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body" id="app1">
+        {% verbatim %}
+        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+          <button @click="insertData">增加</button>
+          <div class="row">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                aria-describedby="example2_info">
+                <thead>
+                  <tr role="row">
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-sort="ascending" aria-label="ID: activate to sort column descending">
+                      ID</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="Browser: activate to sort column ascending">设备类型</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="Platform(s): activate to sort column ascending">设备状态</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="Engine version: activate to sort column ascending">机柜</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="CSS grade: activate to sort column ascending">服务器名称</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="CSS grade: activate to sort column ascending">最新时间</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="CSS grade: activate to sort column ascending">创建时间</th>
+                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                      aria-label="CSS grade: activate to sort column ascending">详情</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr role="row" class="odd">
+                  <tr v-for="item in assets.results" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.device_type }}</td>
+                    <td>{{ item.device_status }}</td>
+                    <td>{{ item.cabient }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.latest_date }}</td>
+                    <td>{{ item.create_at }}</td>
+                    <td> <button @click="showDialog(item)">详情</button></td>
+                  </tr>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th rowspan="1" colspan="1">ID</th>
+                    <th rowspan="1" colspan="1">设备类型</th>
+                    <th rowspan="1" colspan="1">设备状态</th>
+                    <th rowspan="1" colspan="1">机柜 </th>
+                    <th rowspan="1" colspan="1">服务器名称</th>
+                    <th rowspan="1" colspan="1">最新时间</th>
+                    <th rowspan="1" colspan="1">创建时间</th>
+                    <th rowspan="1" colspan="1">详情</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- <div class="dialog" style="width: 300px">
+                    <form>
+                      <input type="text" v-model="listData.device_type">&nbsp;设备类型 <br>
+                      <input type="text" v-model="listData.device_status">&nbsp;设备状态<br>
+                      <input type="text" v-model="listData.device_type_id">&nbsp;服务器型号<br>
+                      <input type="text" v-model="listData.device_status_id">&nbsp;服务器型号<br>
+                      <input type="text" v-model="listData.cabient">&nbsp;机柜 <br>
+                      <input type="text" v-model="listData.name">&nbsp;服务器名称<br>
+                      <input type="text" v-model="listData.latest_date">&nbsp;最新时间<br>
+                      <input type="text" v-model="listData.create_at">&nbsp;创建时间
+                    </form>
+                    <div>
+                        <button @click="submitData">确定</button>
+                   </div>
+            </div> -->
+            <!---弹窗实现-->
+            <!-- <div  v-show="dialogFlag">             
+                <ul class="list-group dialogShow" >
+                    <li class="list-group-item" style="font-size: 30px">资产清单信息<button style='float:right;font-size: 50%;'  @click="dialogFlag=false">关闭</button></li>
+                    <li class="list-group-item">资产ID:&nbsp;&nbsp;&nbsp;{{ dialogData.id }}</li>
+                    <li class="list-group-item">设备类型:&nbsp;&nbsp;&nbsp;{{ dialogData.device_type }}</li>
+                    <li class="list-group-item">设备状态:&nbsp;&nbsp;&nbsp;{{ dialogData.device_status }}</li> 
+                    <li class="list-group-item">机柜:&nbsp;&nbsp;&nbsp;{{ dialogData.cabient }}</li>
+                    <li class="list-group-item">服务器名称:&nbsp;&nbsp;&nbsp;{{ dialogData.name }}</li>
+                    <li class="list-group-item">最新时间:&nbsp;&nbsp;&nbsp;{{ dialogData.latest_date }}</li>
+                    <li class="list-group-item">创建时间:&nbsp;&nbsp;&nbsp;{{ dialogData.create_at }}</li>
+                    <li class="list-group-item" style="font-size: 30px">下属服务器信息</li>
+                    <li class="list-group-item">服务器ID:&nbsp;&nbsp;&nbsp;{{ server.id }}</li>
+                    <li class="list-group-item">服务器类型:&nbsp;&nbsp;&nbsp;{{ server.sub_asset_type }}</li>
+                    <li class="list-group-item">添加方式:&nbsp;&nbsp;&nbsp;{{ server.created_by }}</li>
+                    <li class="list-group-item">服务器型号:&nbsp;&nbsp;&nbsp;{{ server.model }}</li>
+                    <li class="list-group-item">Raid类型:&nbsp;&nbsp;&nbsp;{{ server.raid_type }}</li>
+                    <li class="list-group-item">操作系统类型:&nbsp;&nbsp;&nbsp;{{ server.os_type }}</li>
+                    <li class="list-group-item">发行商:&nbsp;&nbsp;&nbsp;{{ server.os_distribution }}</li>
+                    <li class="list-group-item">操作系统版本:&nbsp;&nbsp;&nbsp;{{ server.os_release }}</li>
+                  </ul>
+            </div> -->
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+              <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 57
+                entries</div>
+            </div>
+            <div class="col-sm-7">
+              <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                <ul class="pagination">
+                  <li class="paginate_button previous" id="example2_previous">
+                    <a href="#" @click="getUrl(assets.links.previous_url)">上一页</a>
+                    
+                  </li>
+                  <li class="paginate_button " v-for="item in assets.links.page_links">
+                    <a v-if="! item[3]" href="#" @click="getData(item[0])">{{ item[1] }}</a>
+                    <a v-else href="#">...</a>
+                  </li>
+                  <li class="paginate_button next" id="example2_next">
+                    <a href="#" @click="getData(assets.links.next_url)">下一页</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Data Table With Full Features</h3>
+      </div>
+    </div>
+      {% endverbatim %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  var app = new Vue({
+    el: "#app1",
+    data: {
+         id:'',
+      assets: '',
+      dialogFlag:false,
+      dialogData:{},
+      server:{},
+      listData:{
+            device_type: "",
+            device_status: "",
+            device_type_id: "",
+            device_status_id: "",
+            cabient: "",
+            name: "",
+            latest_date: "",
+            create_at: ""
+        }
+    },
+    methods: {
+      submitData(){
+        console.log(this.listData)
+        let id=this.id
+        axios.post(`http://127.0.0.1:8000/cmdb/assetmodel/${id}`,this.listData)
+            .then(res=>{
+                    console.log('res=>',res);            
+            })
+                  },
+      insertData(){
+        this.dialogFlag=true;
+        axios.get(
+        "http://127.0.0.1:8000/cmdb/assets/",
+      ).then(
+        res => {
+          this.id = res.data.count+1;
+          console.log(res)
+        });
+      },
+      showDialog(item){
+        window.location.href="http://127.0.0.1:8000/cmdb/assets-detail/?id="+item.id
+        //点击后路由跳转的  当前页跳转不打开新标签页  
+
+          ///下面的是弹窗实现
+            // this.dialogData=item;
+            // this.server=item.server;
+            // this.dialogFlag=!this.dialogFlag;
+            // console.log(this.dialogData)
+      },
+      // getTableData(id){     //带参数请求数据
+      //   axios.get(
+      //     "http://127.0.0.1:8000/cmdb/assets/",
+      //     {params: { 'id': id }}).then(
+      //     res => {
+      //       console.log(res)
+      //     });
+      // },
+      getUrl(previous_url) {
+        axios.get(
+          previous_url,
+        ).then(
+          res => {
+            this.assets = res.data;
+          });
+      },
+      getData(next_url) {
+        axios.get(
+          next_url,
+        ).then(
+          res => {
+            this.assets = res.data;
+          });
+      }
+    },
+    mounted() {
+      axios.get(
+        "http://127.0.0.1:8000/cmdb/assets/",
+      ).then(
+        res => {
+          this.assets = res.data;
+        });
+    },
+  })
+</script>
+<style scoped>
+    .dialogShow{
+      margin-left: 400px;
+      z-index: 100;
+      width: 600px;
+      position: fixed;
+      filter:alpha(opacity=60); 
+    }
+</style>
+{% endblock %}

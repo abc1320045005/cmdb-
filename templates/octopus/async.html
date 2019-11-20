@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+内容
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <input type="text">
+    <span>
+      <button class="btn btn-success" id="btn">send</button>
+
+    </span>
+  </div>
+  <!-- <div class="col-md-6 col-md-offset-3">
+    <h1>结果展示</h1>
+    <span id="result"></span>
+  </div> -->
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <button class="btn btn-danger" id="getTask">结果展示</button>
+    <div id="result"></div>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+  $(function () {
+    var task_id = ''
+    $("#btn").on("click", function () {
+      let num = $(this).parent().siblings().first().val()
+      // $("#result").empty()
+      $.ajax({
+        url: "/octopus/async/",
+        type: "POST",
+        data: {
+          "num": num,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        dataType: "json",
+        success: function (res) {
+          let task_id = res.task_id;
+          alert(task_id);
+          $("#result").text(res.status)
+        }
+      })
+    })
+    $("#getTask").on("click", function () {
+      $.ajax({
+        url: `/octopus/get_task/?task_id=${task_id}`,
+        type: "GET",
+        dataType: 'json',
+        success: function (task_ret) {
+          console.log(task_ret.id)
+          $("#result").append(
+          `<p>${task_ret.id}</p><p>${task_ret.status}</p>`
+          )
+        }
+      })
+    })
+  })
+
+</script>
+{% endblock %}

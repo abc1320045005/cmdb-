@@ -1,0 +1,38 @@
+  <!-- 
+    其他可选的模型： 
+    
+    小帅哥： https://unpkg.com/live2d-widget-model-chitose@1.0.5/assets/chitose.model.json
+    
+    萌娘：https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json 
+    
+    小可爱（女）：https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json 
+    
+    小可爱（男）：https://unpkg.com/live2d-widget-model-haruto@1.0.5/assets/haruto.model.json
+    
+    初音：https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json -->
+    
+    <!-- 2D模型全名称：
+    
+    live2d-widget-model-chitose
+    live2d-widget-model-epsilon2_1
+    live2d-widget-model-gf
+    live2d-widget-model-haru/01 (use npm install --save live2d-widget-model-haru)
+    live2d-widget-model-haru/02 (use npm install --save live2d-widget-model-haru)
+    live2d-widget-model-haruto
+    live2d-widget-model-hibiki
+    live2d-widget-model-hijiki
+    live2d-widget-model-izumi
+    live2d-widget-model-koharu
+    live2d-widget-model-miku
+    live2d-widget-model-ni-j
+    live2d-widget-model-nico
+    live2d-widget-model-nietzsche
+    live2d-widget-model-nipsilon
+    live2d-widget-model-nito
+    live2d-widget-model-shizuku
+    live2d-widget-model-tororo
+    live2d-widget-model-tsumiki
+    live2d-widget-model-unitychan
+    live2d-widget-model-wanko
+    live2d-widget-model-z16 -->
+    
